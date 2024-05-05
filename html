@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webcam Example</title>
+</head>
+<body>
+
+<h1>Webcam Example</h1>
+<video id="video" width="640" height="480" autoplay></video>
+<button id="startButton">Start Camera</button>
+<button id="stopButton">Stop Camera</button>
+
+<script>
+const video = document.getElementById('video');
+const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
+
+// Access webcam
+async function startCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+  } catch (error) {
+    console.error('Error accessing webcam:', error);
+  }
+}
+
+// Stop webcam
+function stopCamera() {
+  const stream = video.srcObject;
+  const tracks = stream.getTracks();
+  tracks.forEach(track => track.stop());
+  video.srcObject = null;
+}
+
+// Event listeners
+startButton.addEventListener('click', startCamera);
+stopButton.addEventListener('click', stopCamera);
+</script>
+
+</body>
+</html>
